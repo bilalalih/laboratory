@@ -1,0 +1,9 @@
+{
+  "input_rows": 1,
+  "output_rows": 1,
+  "dropped_rows": 0,
+  "columns": 21,
+  "job_id": 1,
+  "filename": "test.csv",
+  "processed_at": "2026-01-16T18:31:24+00:00Z"
+}
