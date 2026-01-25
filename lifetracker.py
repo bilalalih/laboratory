@@ -1,5 +1,6 @@
 import json
 import os
+import argparse
 from datetime import datetime, timezone, date
 from pathlib import Path
 
@@ -117,32 +118,26 @@ Commands:
   quit      exit
 """)
 
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(description="Mood and Energy tracker")
+    s = p.add_subparsers(dest="cmd", required=True)
+
+    add = s.add_parser("add", help="Adds entry")
+    add.set_defaults(func=lambda args: add_entry())
+    
+    show = s.add_parser("show", help="Show last 7 days")
+    show.set_defaults(func=lambda args: show_last_days(7))
+    
+    month = s.add_parser("month", help="Show this month's averages")
+    month.set_defaults(func=lambda args: monthly_average())
+    
+    return p
+
 def main():
     print("🧪 LifeTracker CLI v0.1 (mood + energy tracker)")
-    show_help()
-
-    while True:
-        try:
-            cmd = input("\n> ").strip().lower()
-        except (EOFError, KeyboardInterrupt):
-            print("\n Bye 👋")
-            break
-
-        if cmd in("q", "quit", "exit"):
-            print("See you tomorrow hopefully 🌙")
-            break
-        elif cmd == "add":
-            add_entry()
-        elif cmd in ("show", "last", "ls"):
-            show_last_days(7)
-        elif cmd in ("month", "avg", "monthly"):
-            monthly_average()
-        elif cmd in ("help", "h", "?"):
-            show_help()
-        elif cmd == "":
-            continue
-        else:
-            print(f"Unknown command: {cmd!r} (try 'help')")
+    parser = build_parser()
+    args = parser.parse_args()
+    args.func(args)
 
 if __name__ == "__main__":
     main()
