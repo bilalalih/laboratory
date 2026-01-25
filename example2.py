@@ -24,3 +24,11 @@ for role, t_list in titles.items():
 # for n in names.keys():
 #     name = get_name_by_id(n)
 #     print(name)
+
+students: dict[str, str] = {
+    "S001": "Alice Johnson",
+    "S002": "Bob Smith",
+    "S003": "Charlie Davis",
+}
+
+print(f"Student: {students.get('S002', 'Unknown Student')}")
